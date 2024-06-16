@@ -15,20 +15,14 @@ internal static class DependencyInjection
 {
     public static IServiceCollection AddPresentation(
         this IServiceCollection services,
-        IConfiguration configuration,
-        bool isProduction
+        IConfiguration configuration
     )
     {
         services.AddSettings(configuration, out AuthOptions authSettings);
 
-        if (!isProduction)
-        {
-            services
-                .AddHealthCheckUI(authSettings)
-                .AddSwagger();
-        }
-
         return services
+            .AddHealthCheckUI(authSettings)
+            .AddSwagger()
             .AddResponseCompression()
             .AddVersioning()
             .AddMiddlewares()
