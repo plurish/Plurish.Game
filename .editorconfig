@@ -1,5 +1,3 @@
-root = true
-
 # All files
 [*]
 indent_style = space
@@ -515,6 +513,12 @@ dotnet_diagnostic.S2094.severity = suggestion
 
 # CA1819: Properties should not return arrays
 dotnet_diagnostic.CA1819.severity = suggestion
+
+# CA1819: Properties should not return arrays
+dotnet_diagnostic.CA1819.severity = suggestion
+
+# CS8619: Nullability of reference types in value doesn't match target type
+dotnet_diagnostic.CS8619.severity = suggestion
 
 [**/Migrations/*]
 generated_code = true

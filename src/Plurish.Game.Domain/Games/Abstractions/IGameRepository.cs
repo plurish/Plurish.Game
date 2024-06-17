@@ -1,9 +1,12 @@
-﻿using Plurish.Game.Domain.Games.Models;
+﻿using Plurish.Game.Domain.Games.Dtos;
 
 namespace Plurish.Game.Domain.Games.Abstractions;
+
 public interface IGameRepository
 {
-    Task<Models.Game[]?> BuscarGames();
-    Task<Models.Game?> BuscarGame(int id);
-    Task<Models.Game?> PostarGame(Models.Game game);
+    Task<List<GameDto>?> Buscar();
+    Task<GameDto?> Buscar(Guid id);
+    Task Publicar(GameDto game);
+    Task Editar(GameDto game);
+    Task Deletar(Guid id);
 }

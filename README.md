@@ -1,5 +1,5 @@
 # Plurish.Game
-Esta é uma template, que pode ser usada como base para REST APIs potencialmente complexas e monstruosas.
+Está é a API responsável pelas features de Gaming do Plurish.
 
 ## Como testar
 
@@ -16,7 +16,7 @@ Estas são as principais libraries externas usadas para lidar com problemas gen�
 
 - Logging: [Serilog](https://serilog.net/)
 - Auto-mapping: [Mapster](https://github.com/MapsterMapper/Mapster)
-- Persistence: [Dapper](https://github.com/DapperLib/Dapper)
+- Persistence: [MongoDB.Driver](https://github.com/mongodb/mongo-csharp-driver)
 - Resilience: [Polly](https://github.com/App-vNext/Polly?tab=readme-ov-file#polly)
 - Code Analysis: [SonarAnalyzer](https://github.com/SonarSource/sonar-dotnet)
 - Testing:

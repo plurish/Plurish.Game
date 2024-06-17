@@ -12,7 +12,7 @@ public static class Settings
     /// </summary>
     public sealed class Database
     {
-        public required SqlOptions Xpto { get; init; }
+        public required SqlOptions Gaming { get; init; }
     }
 
     /// <summary>
@@ -20,7 +20,6 @@ public static class Settings
     /// </summary>
     public sealed class Api
     {
-        public required ApiOptions OpenWeather { get; init; }
         public required ApiOptions Elasticsearch { get; init; }
     }
 }

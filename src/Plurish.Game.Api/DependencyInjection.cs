@@ -83,7 +83,7 @@ internal static class DependencyInjection
             .AddHealthChecksUI(o => o.ConfigureApiEndpointHttpclient((s, client) =>
                 client.DefaultRequestHeaders.Add(
                     "api-key",
-                    authSettings.ApiKeys["Plurish-Api-Xpto"]
+                    authSettings.ApiKeys["Plurish-Api-Gaming"]
                 )
             ))
             .AddInMemoryStorage();

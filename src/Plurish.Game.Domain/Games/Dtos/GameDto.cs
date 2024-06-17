@@ -1,17 +1,19 @@
-﻿namespace Plurish.Game.Domain.Games.Dtos;
+﻿using System.Text.Json.Serialization;
+
+namespace Plurish.Game.Domain.Games.Dtos;
 public sealed record GameDto(
-    int Id,
+    Guid Id,
     string Title,
     string Cover,
-    string BackgroundImage,
+    [property: JsonPropertyName("background_image")] string BackgroundImage,
     string Description,
     string Genre,
     string Publisher,
     string Developer,
     string Platform,
     string[] Videos,
-    Uri GameUrl,
-    DateTime ReleaseDate,
+    [property: JsonPropertyName("game_url")] Uri GameUrl,
+    [property: JsonPropertyName("release_date")] DateTime ReleaseDate,
     string[] Screenshots,
-    SystemRequirementsDto SystemRequirements
+    [property: JsonPropertyName("sys_requirements")] SystemRequirementsDto SystemRequirements
 );

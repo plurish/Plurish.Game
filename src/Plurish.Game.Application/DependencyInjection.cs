@@ -1,8 +1,7 @@
 ﻿using Mapster;
 using MapsterMapper;
 using Microsoft.Extensions.DependencyInjection;
-using Plurish.Game.Application.Games.Abstractions;
-using Plurish.Game.Application.Games.Services;
+using Plurish.Game.Application.Games;
 
 namespace Plurish.Game.Application;
 

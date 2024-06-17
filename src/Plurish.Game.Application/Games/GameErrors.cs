@@ -1,13 +1,10 @@
 ﻿using Plurish.Common.Types.Output;
 using Plurish.Game.Domain.Games.Dtos;
 
-namespace Plurish.Game.Application.Games.Errors;
+namespace Plurish.Game.Application.Games;
 
 internal static class GameErrors
 {
-    internal static readonly Result<GameDto?> GameNaoEncontrado =
-        Result<GameDto?>.UnexpectedError(["Algum erro ocorreu ao tentar buscar o jogo"]);
-
     internal static readonly Result<GameDto[]?> GamesNaoEncontrados =
         Result<GameDto[]?>.UnexpectedError(["Algum erro ocorreu ao tentar buscar os jogos"]);
 
