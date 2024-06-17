@@ -5,7 +5,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Options;
 using Plurish.Common.Configuration;
+using Plurish.Game.Domain.Games.Abstractions;
 using Plurish.Game.Domain.Tempos.Abstractions;
+using Plurish.Game.Infra.Games.Repositories;
 using Plurish.Game.Infra.Tempos;
 using Plurish.Game.Infra.Tempos.Repositories;
 using Polly;
@@ -57,20 +59,20 @@ public static class DependencyInjection
         Settings.Database dbSettings
     )
     {
-        services.AddHealthChecks()
-            .AddSqlServer(
-                name: "Db-Xpto",
-                connectionString: dbSettings.Xpto.ConnectionString,
-                failureStatus: HealthStatus.Unhealthy,
-                tags: ["db", "mssql"]
-            )
-            .AddElasticsearch(
-                elasticsearchUri: apiSettings.Elasticsearch.Url,
-                name: "Elasticsearch",
-                failureStatus: HealthStatus.Degraded,
-                tags: ["db", "elastic", "log"]
-            )
-            .ForwardToPrometheus();
+        //services.AddHealthChecks()
+        //    .AddSqlServer(
+        //        name: "Db-Xpto",
+        //        connectionString: dbSettings.Xpto.ConnectionString,
+        //        failureStatus: HealthStatus.Unhealthy,
+        //        tags: ["db", "mssql"]
+        //    )
+        //    .AddElasticsearch(
+        //        elasticsearchUri: apiSettings.Elasticsearch.Url,
+        //        name: "Elasticsearch",
+        //        failureStatus: HealthStatus.Degraded,
+        //        tags: ["db", "elastic", "log"]
+        //    )
+        //    .ForwardToPrometheus();
 
         return services;
     }
@@ -103,9 +105,8 @@ public static class DependencyInjection
     }
 
     private static IServiceCollection AddRepositories(this IServiceCollection services) =>
-        services
-            .AddSingleton<ICidadeRepository, CidadeRepository>()
-            .AddSingleton<ITempoRepository, TempoRepository>();
+    services
+            .AddSingleton<IGameRepository, GameRepository>();
 
     private static IServiceCollection AddMappers(this IServiceCollection services) =>
         services

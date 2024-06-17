@@ -1,8 +1,8 @@
 ﻿using Mapster;
 using MapsterMapper;
 using Microsoft.Extensions.DependencyInjection;
-using Plurish.Game.Application.Tempos.Abstractions;
-using Plurish.Game.Application.Tempos.Services;
+using Plurish.Game.Application.Games.Abstractions;
+using Plurish.Game.Application.Games.Services;
 
 namespace Plurish.Game.Application;
 
@@ -28,6 +28,5 @@ public static class DependencyInjection
             .AddMediatR(config =>
                 config.RegisterServicesFromAssembly(typeof(DependencyInjection).Assembly)
             )
-            .AddSingleton<ITempoService, TempoService>()
-            .AddSingleton<ICidadeService, CidadeService>();
+            .AddSingleton<IGameService, GameService>();
 }
