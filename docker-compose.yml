@@ -1,14 +1,12 @@
 version: '3.8'
 
 services:
-    api-template:
-        container_name: plurish-api-template
-        image: plurish/api/template
+    api-game:
+        container_name: plurish-api-game
+        image: plurish/api/game
         build:
             context: .
-            dockerfile: ./src/Api/Dockerfile
-            args:
-                KEYVAULT_URL: https://kv-plurish-dev.vault.azure.net/
+            dockerfile: ./src/Plurish.Game.Api/Dockerfile
         ports:
             - 8080:8080
             - 8081:8081
@@ -16,65 +14,65 @@ services:
         networks:
             - plurish
 
-    elasticsearch:
-        container_name: plurish-elastic
-        image: docker.elastic.co/elasticsearch/elasticsearch:8.12.2
-        volumes:
-            - elastic-data:/usr/share/elasticsearch/data
-        environment:
-            - cluster.name=plurish-elastic
-            - discovery.type=single-node
-            - xpack.security.enabled=false
-            - xpack.security.enrollment.enabled=false
-            - bootstrap.memory_lock=true
-            - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
-        ports:
-            - 9200:9200
-        ulimits:
-            memlock:
-                soft: -1
-                hard: -1
-            nofile:
-                soft: 65536
-                hard: 65536
-        deploy:
-            restart_policy:
-                condition: on-failure
-                delay: 10s
-                max_attempts: 3
-                window: 120s
-        networks:
-            - plurish
+    # elasticsearch:
+    #     container_name: plurish-elastic
+    #     image: docker.elastic.co/elasticsearch/elasticsearch:8.12.2
+    #     volumes:
+    #         - elastic-data:/usr/share/elasticsearch/data
+    #     environment:
+    #         - cluster.name=plurish-elastic
+    #         - discovery.type=single-node
+    #         - xpack.security.enabled=false
+    #         - xpack.security.enrollment.enabled=false
+    #         - bootstrap.memory_lock=true
+    #         - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    #     ports:
+    #         - 9200:9200
+    #     ulimits:
+    #         memlock:
+    #             soft: -1
+    #             hard: -1
+    #         nofile:
+    #             soft: 65536
+    #             hard: 65536
+    #     deploy:
+    #         restart_policy:
+    #             condition: on-failure
+    #             delay: 10s
+    #             max_attempts: 3
+    #             window: 120s
+    #     networks:
+    #         - plurish
 
-    kibana:
-        container_name: plurish-kibana
-        image: docker.elastic.co/kibana/kibana:8.12.2
-        volumes:
-            - kibana-data:/usr/share/elasticsearch/data
-        restart: unless-stopped
-        ports:
-            - 5601:5601
-        environment:
-            ELASTICSEARCH_URL: http://elasticsearch:9200
-            ELASTICSEARCH_HOSTS: http://elasticsearch:9200
-            xpack.fleet.agents.tlsCheckDisabled: true
-        depends_on:
-            - elasticsearch
-        networks:
-            - plurish
+    # kibana:
+    #     container_name: plurish-kibana
+    #     image: docker.elastic.co/kibana/kibana:8.12.2
+    #     volumes:
+    #         - kibana-data:/usr/share/elasticsearch/data
+    #     restart: unless-stopped
+    #     ports:
+    #         - 5601:5601
+    #     environment:
+    #         ELASTICSEARCH_URL: http://elasticsearch:9200
+    #         ELASTICSEARCH_HOSTS: http://elasticsearch:9200
+    #         xpack.fleet.agents.tlsCheckDisabled: true
+    #     depends_on:
+    #         - elasticsearch
+    #     networks:
+    #         - plurish
 
-    prometheus:
-        container_name: plurish-prometheus
-        image: prom/prometheus:v2.50.1
-        volumes:
-            - ../prometheus.yaml:/etc/prometheus/prometheus.yml
-            - prometheus-data:/prometheus
-        depends_on:     
-            - api-template
-        ports:
-            - 9090:9090
-        networks:
-            - plurish
+    # prometheus:
+    #     container_name: plurish-prometheus
+    #     image: prom/prometheus:v2.50.1
+    #     volumes:
+    #         - ../prometheus.yaml:/etc/prometheus/prometheus.yml
+    #         - prometheus-data:/prometheus
+    #     depends_on:     
+    #         - api-template
+    #     ports:
+    #         - 9090:9090
+    #     networks:
+    #         - plurish
 
     # db-log:
     #     container_name: plurish-db-log
@@ -90,13 +88,13 @@ services:
     #     networks:
     #         - plurish
 
-volumes:
-    elastic-data:
-        name: plurish-elastic
-    kibana-data:
-        name: plurish-kibana
-    prometheus-data:
-        name: plurish-prometheus
+# volumes:
+#     elastic-data:
+#         name: plurish-elastic
+#     kibana-data:
+#         name: plurish-kibana
+#     prometheus-data:
+#         name: plurish-prometheus
 
 networks:
     plurish:

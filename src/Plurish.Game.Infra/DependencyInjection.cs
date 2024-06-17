@@ -4,14 +4,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Options;
-using Plurish.Common.Configuration;
-using Plurish.Game.Domain.Tempos.Abstractions;
-using Plurish.Game.Infra.Tempos;
-using Plurish.Game.Infra.Tempos.Repositories;
-using Polly;
-using Polly.Contrib.WaitAndRetry;
+using Plurish.Game.Domain.Games.Abstractions;
+using Plurish.Game.Infra.Games;
 using Prometheus;
-using Refit;
 
 namespace Plurish.Game.Infra;
 
@@ -28,7 +23,6 @@ public static class DependencyInjection
                 out Settings.Database db
             )
             .AddHealthChecking(api, db)
-            .AddApiClients(api)
             .AddRepositories()
             .AddMappers();
 
@@ -58,11 +52,11 @@ public static class DependencyInjection
     )
     {
         services.AddHealthChecks()
-            .AddSqlServer(
-                name: "Db-Xpto",
-                connectionString: dbSettings.Xpto.ConnectionString,
+            .AddMongoDb(
+                name: "Gaming MongoDB",
+                mongodbConnectionString: dbSettings.Gaming.ConnectionString,
                 failureStatus: HealthStatus.Unhealthy,
-                tags: ["db", "mssql"]
+                tags: ["db", "mongo"]
             )
             .AddElasticsearch(
                 elasticsearchUri: apiSettings.Elasticsearch.Url,
@@ -75,37 +69,9 @@ public static class DependencyInjection
         return services;
     }
 
-    private static IServiceCollection AddApiClients(
-        this IServiceCollection services,
-        Settings.Api apis
-    )
-    {
-        ApiOptions openWeather = apis.OpenWeather;
-
-        services
-            .AddRefitClient<IOpenWeatherApiClient>()
-            .ConfigureHttpClient(c =>
-            {
-                c.BaseAddress = new Uri(openWeather.Url);
-                c.Timeout = TimeSpan.FromSeconds(openWeather.Timeout);
-            })
-            .AddTransientHttpErrorPolicy(policyBuilder =>
-            {
-                IEnumerable<TimeSpan> retryStrategy = Backoff.DecorrelatedJitterBackoffV2(
-                    TimeSpan.FromSeconds(openWeather.Resilience.MedianFirstRetryDelay),
-                    openWeather.Resilience.RetryCount
-                );
-
-                return policyBuilder.WaitAndRetryAsync(retryStrategy);
-            });
-
-        return services;
-    }
-
     private static IServiceCollection AddRepositories(this IServiceCollection services) =>
         services
-            .AddSingleton<ICidadeRepository, CidadeRepository>()
-            .AddSingleton<ITempoRepository, TempoRepository>();
+            .AddSingleton<IGameRepository, GameRepository>();
 
     private static IServiceCollection AddMappers(this IServiceCollection services) =>
         services

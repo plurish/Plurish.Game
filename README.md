@@ -1,10 +1,10 @@
 # Plurish.Game
-Esta é uma template, que pode ser usada como base para REST APIs potencialmente complexas e monstruosas.
+Está é a API responsável pelas features de Gaming do Plurish.
 
 ## Como testar
 
 ```bash
-git clone https://github.com/plurish/api-template.git
+git clone https://github.com/plurish/Plurish.Game.git
 
 dotnet run --project api-template/src/Plurish.Game.Api/Plurish.Game.Api.csproj
 
@@ -16,7 +16,7 @@ Estas são as principais libraries externas usadas para lidar com problemas gen�
 
 - Logging: [Serilog](https://serilog.net/)
 - Auto-mapping: [Mapster](https://github.com/MapsterMapper/Mapster)
-- Persistence: [Dapper](https://github.com/DapperLib/Dapper)
+- Persistence: [MongoDB.Driver](https://github.com/mongodb/mongo-csharp-driver)
 - Resilience: [Polly](https://github.com/App-vNext/Polly?tab=readme-ov-file#polly)
 - Code Analysis: [SonarAnalyzer](https://github.com/SonarSource/sonar-dotnet)
 - Testing:
@@ -33,7 +33,7 @@ O arquivo `Directory.Build.props` possui a prop de UserSecretsId. A intenção d
 
 ```json
 {
-  "KeyVault:Url": "https://xpto.vault.azure.net/",
+  "KeyVault:Url": "https://dev-kv-plurish.vault.azure.net/",
   "KeyVault:TenantId": "00000000-0000-0000-0000-000000000000",
   "KeyVault:ClientId": "00000000-0000-0000-0000-000000000000",
   "KeyVault:ClientSecret": "secret-xpto"
@@ -76,13 +76,13 @@ scrape_configs:
 
 # Estrutura
 O projeto como um todo foi estruturado com base em conceitos, princípios e patterns de Clean Architecture, Vertical Slice Architecture e Domain-Driven Design (DDD), 
-visando promover, respectivamente, desacoplamento, coesão e manuteniblidade.
+visando promover, respectivamente, desacoplamento, coesão e manutenibilidade.
 
-Cada camada, teoricamente, deve ter responsabilidades bem claras e pouco acopladas às outras. De modo geral, cada camada normalmente terá algumas ou todas as seguintes caracaterísticas:
+Cada camada, teoricamente, deve ter responsabilidades bem claras e pouco acopladas às outras. De modo geral, as camadas normalmente terão algumas ou todas as seguintes caracaterísticas:
 - Divisão por features
 - Contém diretório 'Common', para recursos compartilhados entre diferentes features
 - Responsabilidade própria de injeção de dependência
-- Classe de configuração própria (Settings.cs), baseada no appsettings.json
+- Classe de configuração própria (`Settings.cs`), baseada no `appsettings.json`
 
 ## Presentation
 Expõe a aplicação para agentes externos. Nesse caso, através de endpoints HTTP
